@@ -1,0 +1,77 @@
+#include <iostream>
+#include <limits>
+#include "InvestmentCalculator.h"
+
+using namespace std;
+
+// main.cpp
+#include <iostream>
+#include <limits>
+#include <string>
+#include "InvestmentCalculator.h"
+
+using namespace std;
+
+// Input helper: non-negative double
+double getNonNegativeDouble(const string& prompt) {
+    double value;
+    while (true) {
+        cout << prompt;
+        cin >> value;
+
+        if (cin.fail() || value < 0) {
+            cout << "Please enter a valid non-negative number.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear rest of line
+            return value;
+        }
+    }
+}
+
+// Input helper: positive int
+int getPositiveInt(const string& prompt) {
+    int value;
+    while (true) {
+        cout << prompt;
+        cin >> value;
+
+        if (cin.fail() || value <= 0) {
+            cout << "Please enter a valid positive whole number.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear rest of line
+            return value;
+        }
+    }
+}
+
+int main() {
+    double initialInvestment = getNonNegativeDouble("Initial Investment Amount: ");
+    double monthlyDeposit = getNonNegativeDouble("Monthly Deposit: ");
+    double annualInterestRate = getNonNegativeDouble("Annual Interest Rate (percent): ");
+    int numberOfYears = getPositiveInt("Number of Years: ");
+
+    InvestmentCalculator calculator(initialInvestment, monthlyDeposit, annualInterestRate, numberOfYears);
+
+    // Show the input screen (the ?Data Input? formatted screen)
+    calculator.printInputScreen();
+
+    // Pause so the user can read the input screen before reports print
+    cout << "\nPress Enter to continue...";
+    cin.get();
+
+    cout << "\n\nREPORTS STARTING...\n\n";
+
+    // Print both required reports
+    calculator.printReportNoMonthlyDeposit();
+    calculator.printReportWithMonthlyDeposit();
+
+    cout << "\nPress Enter to exit...";
+    cin.get();
+    return 0;
+}
